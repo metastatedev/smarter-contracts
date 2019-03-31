@@ -25,9 +25,23 @@ Interface functions:
 - Transfer a particular token from the sender to another key
 - Permanently destroy a particular token
 
-##### Multisignature
+#### Intermediate
 
-Implement a numerical-threshold weighted-key multisignature contract.
+##### Atomic Token Swap (DEX)
+
+Implement a simple decentralized exchange to swap specified amounts of fungible tokens with off-chain signed orders.
+
+Interface functions:
+- Deposit tokens
+- Withdraw tokens
+- Inspect token balances for a particular user & token
+- Validate order
+- Check order signature
+- Execute order match and transfer tokens
+
+##### Weighted Multisignature
+
+Implement a numerical-threshold weighted-key multisignature contract (a bit like a shareholder-association DAO).
 
 Interface functions:
 - Inspect keys, weights, current threshold
@@ -35,12 +49,6 @@ Interface functions:
 - Remove a key
 - Change required threshold to send a transaction
 - Sign a transaction (must provide signatures from enough keys)
-
-#### Intermediate
-
-##### Atomic Token Swap (DEX)
-
-##### Shareholder Association DAO
 
 #### Advanced
 
