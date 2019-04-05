@@ -6,6 +6,6 @@ Other example Liquidity contracts can be found [here](https://github.com/OCamlPr
 
 To **deploy** a contract, follow the instructions on [Tezos](https://tezos.gitlab.io/alphanet/introduction/howtouse.html#originated-accounts-and-contracts) or [Liquidity](http://www.liquidity-lang.org/doc/usage/index.html#deploying-a-contract).
 
-Note the new originated account address that starts with *KT1*.
+The deployment should originate a new contract address that starts with *KT1*.
 
-To **call** a contract, follow the instructions on [Liquidity](http://www.liquidity-lang.org/doc/usage/index.html#calling-a-contract).  The call should return: 'Successful call to contract KT1XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX in operation [some operation hash].'
+To **call** a contract, follow the instructions on [Liquidity](http://www.liquidity-lang.org/doc/usage/index.html#calling-a-contract).  When successful, the call should return: 'Successful call to contract [the originated account address (from the contract deployment)] in operation [some operation hash].'
