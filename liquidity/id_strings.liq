@@ -4,6 +4,8 @@ type storage = unit
 
 let%entry main
       (_parameter : string)
-      (storage : storage) =
+      storage =
    ( [], storage )
 
+(* Initialize storage to (). *)
+let%init storage = ()
