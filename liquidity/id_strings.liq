@@ -1,4 +1,4 @@
-(*Identity contract for strings. *)
+(* Identity contract for strings. *)
 
 type storage = unit 
 

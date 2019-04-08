@@ -1,4 +1,4 @@
-(*A contract that sends 1 tez to anyone who asks. *)
+(* A contract that sends 1 tez to anyone who asks. *)
 
 type storage = unit 
 
