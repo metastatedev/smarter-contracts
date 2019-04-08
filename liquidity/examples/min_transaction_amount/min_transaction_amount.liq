@@ -7,6 +7,5 @@ let%entry main
       ()
       minAmount =
    if Current.amount () < minAmount then
-         failwith ("Amount is less than minimum required amount.")
-   else
+      Current.failwith ("Amount is less than minimum required amount.");
    ( [], minAmount )
