@@ -10,7 +10,13 @@ To verify that the script reverses the list:
 
 **tezos-client typecheck script [path to]/min_transaction_amount.tz**
 
-(3) run the tezos-client with the *run script* command.  Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
+(3) run a tezos-node in the local network.  Make sure it's bootstrapped.  See [this](http://tezos.gitlab.io/mainnet/introduction/howtouse.html#rpc-interface).
+
+(4) run the tezos-client *run script* command as follows:
+
+**tezos-client run script [path to]/reverse_list.tz on storage '{}' and input '{ "abc" ; "def" ; "x" ; "y" ; "z"}**  
+
+Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
 
 -----------------------------------------------------
 

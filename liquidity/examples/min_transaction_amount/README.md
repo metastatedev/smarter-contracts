@@ -10,7 +10,17 @@ To verify that the script only let transfers that are above or equal to the spec
 
 **tezos-client typecheck script [path to]/min_transaction_amount.tz**
 
-(3) run the tezos-client with the *run script* command.  Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
+(3) run a tezos-node in the local network.  Make sure it's bootstrapped.  See [this](http://tezos.gitlab.io/mainnet/introduction/howtouse.html#rpc-interface).
+
+(4) run the tezos-client *run script* commands as follows:
+
+- This command should execute a transfer of 11tz, because it's higher than the 10tz required minimum.  
+**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '11.0'**
+
+- This command should fail to execute, because the transfer amount if 9tz, less than the required minimum.  
+**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '9.00'**
+
+Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
 
 -----------------------------------------------------
 
