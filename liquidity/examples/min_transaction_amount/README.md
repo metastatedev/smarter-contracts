@@ -36,7 +36,9 @@ Ask the node to run a script.
 
 -------------------------------------------------------
 
-Back to this contract, the “storage data” you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the “storage data” parameter.  The **--amount** option you pass in is in tz!    
+The storage or input data have to be in a specific format.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/examples/tezos-clients-data-format.md).
+
+For this contract, the “storage data” you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the “storage data” parameter.  However, the **--amount** option you pass in is in tz!    
 
 For this contract, the *storage data* is the storage, i.e., the minimum amount it is going to accept.  The *input data* is the parameter of the contract, which is unit.  
 
@@ -52,7 +54,7 @@ The **--trace-stack** option shows the stack operations.  The tezos-client ran t
 
 storage  
   10000000  
-emitted operations  
+emitted operations      
   
 trace  
   - location: 6 (remaining gas: 399373 units remaining)
