@@ -2,9 +2,6 @@
 
 type storage = string list
 
-(* Initialize storage. *)
-let%init storage = ["x"; "y";"z"]
-
 (* The parameter is the string list. *)
 let%entry main
       (input_list : string list)
