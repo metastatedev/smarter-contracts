@@ -1,4 +1,4 @@
-This contract .
+This contract reverses a given list.
 
 In this contract the storage is the output string, of type string list. The parameter is the input string, of type string list.
 
