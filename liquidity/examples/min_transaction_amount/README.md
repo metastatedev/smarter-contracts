@@ -38,11 +38,9 @@ Ask the node to run a script.
 
 The storage or input data have to be in a specific format.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/examples/tezos-clients-data-format.md).
 
-For this contract, the “storage data” you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the “storage data” parameter.  However, the **--amount** option you pass in is in tz!    
+For this contract, the *storage data* is the storage, i.e., the minimum amount it is going to accept.  The *input data* is the parameter of the contract, which is unit.  The *storage data* you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the *storage data* parameter.  However, the **--amount** option you pass in is in tz!    
 
-For this contract, the *storage data* is the storage, i.e., the minimum amount it is going to accept.  The *input data* is the parameter of the contract, which is unit.  
-
-Therefore, for this contract to work properly, the amount of transfer (passed in with the --amount option) has to be greater than the storage.
+If this contract works properly, a transfer can only go through if the transfer amount (passed in with the --amount option) is greater than the storage data.
 
 You can see the script working, with the specified amount of 10tz, by passing in an amount above and below 10 tz respectively:
 
