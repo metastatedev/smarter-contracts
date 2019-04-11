@@ -14,7 +14,7 @@ To verify that the script reverses the list:
 
 (4) run the tezos-client *run script* command as follows:
 
-**tezos-client run script [path to]/reverse_list.tz on storage '{}' and input '{ "abc" ; "def" ; "x" ; "y" ; "z"}**  
+**tezos-client run script [path to]/reverse_list.tz on storage '{}' and input '{ "abc" ; "def" ; "x" ; "y" ; "z"}'**  
 
 Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
 
@@ -50,7 +50,7 @@ If this contract works properly, the storage should be a reversed list of the in
 
 You can see the script working from the output being the reversed list:
 
-**tezos-client run script [path to]/reverse_list.tz on storage '{}' and input '{ "abc" ; "def" ; "x" ; "y" ; "z"}**  
+**tezos-client run script [path to]/reverse_list.tz on storage '{}' and input '{ "abc" ; "def" ; "x" ; "y" ; "z"}'**  
 
 storage  
   { "z" ; "y" ; "x" ; "def" ; "abc" }  
