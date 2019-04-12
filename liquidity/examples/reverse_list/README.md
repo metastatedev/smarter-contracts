@@ -19,6 +19,7 @@ To verify that the script reverses the list:
 Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
 
 -----------------------------------------------------------------------
+
 run script ***src*** on storage ***storage*** and input ***storage*** [--trace-stack] [--amount <amount>] [-q --no-print-source]  
 
 Ask the node to run a script.  
@@ -38,7 +39,8 @@ Ask the node to run a script.
   If an error is encountered, the client will print the contract's source
   code by default.  
   This option disables this behaviour.  
---------------------------------------------------------
+
+-----------------------------------------------------------------------------
 
 The storage or input data have to be in a specific format.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/examples/tezos-clients-data-format.md).
 
