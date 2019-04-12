@@ -15,24 +15,27 @@ After compiling send_one_tez.liq to .tz (by running ```liquidity send_one_tez.li
 This generates a contract named *sendtez* and it should return "new contract originated with a KT1 address.  In my case 'KT1FNANtucrLC4FzGMnyBD945WDkXB86UJDU'.
 
 Running ```tezos-client list known contracts``` now list the new contract *sendtez*:  
+
+~~~~
 sendtez: KT1FNANtucrLC4FzGMnyBD945WDkXB86UJDU  
 bob: tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6  
 alice: tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS  
+~~~~
 
 The contract is injected to alphanet.  To call the contract, we need to know alice’s private key and hash, and bob’s hash.
 
 Running ```tezos-client show address alice -S --show-secret``` shows the following for alice:
-
+~~~~
 Hash: tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
 Public Key: edpku5LTYXxXKTjmzj9qtHR6TTYH1K6JU7bFe8MyJs6qabUs9kiZes
 Secret Key: unencrypted:edsk2gKnmssYQB5sNCAL6sCcgfPRZDuK1zixBowAQ1H1WCt78JxEhf
-
+~~~~
 Running ```tezos-client show address bob -S --show-secret``` shows the following for bob:
-
+~~~~
 Hash: tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6
 Public Key: edpktqrmQgDqvdCZM4msb9eDpe2adQ6NDgE7Jax34ABPzvw2Pk9SaT
 Secret Key: unencrypted:edsk2pyAwDyHGh22tFAre3Qghz1JY3D1eT6yWnZVbidVJstzYxTAKK
-
+~~~~
 Before we call the contract, which will execute the transfer of 1tz, let’s check the balances of alice and bob with 
 
 ```tezos-client get balance for alice```
