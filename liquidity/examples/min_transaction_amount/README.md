@@ -4,21 +4,22 @@ In this contract the storage is *the minimum amount of tz the contract will acce
 
 To verify that the script only let transfers that are above or equal to the specified amount to go through:
 
-(1) compile the min_transaction_amount.liq to .tz (by running **liquidity min_transaction_amount.liq**)
+(1) compile the min_transaction_amount.liq to .tz (by running ```liquidity min_transaction_amount.liq```)
 
 (2) typecheck the script with 
 
-**tezos-client typecheck script [path to]/min_transaction_amount.tz**
+```tezos-client typecheck script [path to]/min_transaction_amount.tz```
 
 (3) run a tezos-node in the local network.  Make sure it's bootstrapped.  See [this](http://tezos.gitlab.io/mainnet/introduction/howtouse.html#rpc-interface).
 
-(4) run the tezos-client *run script* commands as follows:
+(4) run the tezos-client ```run script``` commands as follows:
 
 - This command should execute a transfer of 11tz, because it's higher than the 10tz required minimum.  
-**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '11.0'**
+
+```tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '11.0'```
 
 - This command should fail to execute, because the transfer amount if 9tz, less than the required minimum.  
-**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '9.00'**
+```tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '9.00'```
 
 Here is an excerpt of the command details from [this link](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual):
 
@@ -36,10 +37,10 @@ Ask the node to run a script.
   Use 'alias:name', 'file:path' or 'text:literal' to disable autodetect.  
 ***storage***: the storage data  
 ***storage***: the input data  
-**--trace-stack**: show the stack after each step  
-**--amount <amount>**: amount of the transfer in ꜩ  
+```--trace-stack```: show the stack after each step  
+```--amount <amount>```: amount of the transfer in ꜩ  
   Defaults to `0.05`.  
-**-q --no-print-source**: don't print the source code  
+```-q --no-print-source```: don't print the source code  
   If an error is encountered, the client will print the contract's source
   code by default.  
   This option disables this behaviour.  
@@ -48,21 +49,21 @@ Ask the node to run a script.
 
 The storage or input data have to be in a specific format.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/examples/tezos-clients-data-format.md).
 
-For this contract, the *storage data* is the storage, i.e., the minimum amount it is going to accept.  The *input data* is the parameter of the contract, which is unit.  The *storage data* you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the *storage data* parameter.  However, the **--amount** option you pass in is in tz!    
+For this contract, the *storage data* is the storage, i.e., the minimum amount it is going to accept.  The *input data* is the parameter of the contract, which is unit.  The *storage data* you pass in has to be an integer.  The integer represents 1/1000000 of 1tz.  That is, 1tz in the liquidity language translates to 1000000 in the *storage data* parameter.  However, the ```--amount``` option you pass in is in tz!    
 
-If this contract works properly, a transfer can only go through if the transfer amount (passed in with the --amount option) is greater than the storage data.
+If this contract works properly, a transfer can only go through if the transfer amount (passed in with the ```--amount``` option) is greater than the storage data.
 
 You can see the script working, with the specified amount of 10tz, by passing in an amount above and below 10 tz respectively:
 
 ### When transfer amount is higher than the required amount
 
-**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '11.0'**  
+```tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '11.0'```
 
-The **--trace-stack** option shows the stack operations.  The tezos-client ran the script without problem, because 11tz is larger than 10 tz.  The output:
-
-storage  
-  10000000  
-emitted operations      
+The ```--trace-stack``` option shows the stack operations.  The tezos-client ran the script without problem, because 11tz is larger than 10 tz.  The output:
+~~~~
+storage
+  10000000
+emitted operations
   
 trace  
   - location: 6 (remaining gas: 399373 units remaining)
@@ -131,13 +132,13 @@ trace
     [ (Pair {} 10000000)         ]
   - location: -1 (remaining gas: 399310 units remaining)
     [ (Pair {} 10000000)         ]
-
+~~~~
 ### When transfer amount is lower than the required amount.
 
-**tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '9.00'**  
+```tezos-client run script [path to]/min_transaction_amount.tz on storage '10000000' and input Unit --trace-stack --amount '9.00'```
 
 Because the transfer amount is less than the required amount, a runtime error occur as desired.  The output:
-
+~~~~
 Runtime error in contract KT1BEqzn5Wx8uJrZNvuS9DVHmLvG9td3fDLi:  
 
   01: parameter unit;  
@@ -212,3 +213,4 @@ trace
       10000000          @min_amount_slash_1 ]
 Fatal error:
   error running script
+~~~~
