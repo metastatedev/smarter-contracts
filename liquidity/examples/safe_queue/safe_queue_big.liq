@@ -27,7 +27,11 @@ let%entry main (param : string option) current_queue =
             | None -> 
               if l_key = 0 then
                 current_queue
-              else {big = (Map.remove f_key current_queue.big) ; first_key = new_f_key ; last_key = l_key ; nothing = () }
+              else { 
+                big = (Map.remove f_key current_queue.big) ; 
+                first_key = (if new_f_key > l_key + 1 then f_key else new_f_key) ; 
+                last_key = l_key ;
+                nothing = () }
             | Some v -> {
                 big = (Map.add new_l_key v current_queue.big); 
                 first_key = (if f_key = 0 then new_f_key else f_key);
