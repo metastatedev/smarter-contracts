@@ -22,15 +22,28 @@ To verify that the script implements a queue correctly:
 
 The storage or input data have to be in a specific format.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/examples/tezos-clients-data-format.md).
 
-For the map version:
-
-
+## Big Map
 
 For the big map version, the output on storage is displayed in the form of diff:
 
 - When the queue is empty or has the empty string, removing the first element of the queue (with the parameter of *'None'*) has no effect:
 
-```tezos-client run script safe_queue.tz on storage 'Pair { Elt 0 "" } (Pair 0 (Pair 0 Unit))' and input 'None'```
+When the queue is empty:
+
+```tezos-client run script safe_queue_big.tz on storage 'Pair {} (Pair 0 (Pair 0 Unit))' and input 'None'```
+
+Output:
+~~~~
+storage
+  (Pair {} (Pair 0 (Pair 0 Unit)))
+emitted operations
+  
+map diff:
+~~~~
+
+When the queue has the empty string:
+
+```tezos-client run script [path to]/safe_queue_big.tz on storage 'Pair { Elt 0 "" } (Pair 0 (Pair 0 Unit))' and input 'None'```
 
 Output:
 
@@ -43,9 +56,13 @@ map diff:
   + 0-> ""
 ~~~~
 
-- When the parameter is *'(Some "string")'*, the string is added to the end of the queue.  The storage required
+- When the parameter is *'(Some "string")'*, the string is added to the end of the queue.  The first and last key counters are updated properly as well.  Note that the storage required is larger and more expensive with a longer string.  
 
- tezos-client run script safe_queue.tz on storage 'Pair { Elt 0 "" } (Pair 0 (Pair 0 Unit))' and input '(Some "a")'
+ ```tezos-client run script [path to]/safe_queue_big.tz on storage 'Pair { Elt 0 "" } (Pair 0 (Pair 0 Unit))' and input '(Some "a")'```
+
+Output:
+
+~~~~
 storage
   (Pair {} (Pair 1 (Pair 1 Unit)))
 emitted operations
@@ -53,8 +70,15 @@ emitted operations
 map diff:
   + 0-> ""
   + 1-> "a"
+~~~~
 
-$ tezos-client run script safe_queue.tz on storage '(Pair {Elt 0 "";Elt 1 "a"} (Pair 1 (Pair 1 Unit)))' and input '(Some "b")'
+- The last key counter properly goes up by 1 when another string is added.
+
+```tezos-client run script [path to]/safe_queue_big.tz on storage '(Pair {Elt 0 "";Elt 1 "a"} (Pair 1 (Pair 1 Unit)))' and input '(Some "b")'```
+
+Output:
+
+~~~
 storage
   (Pair {} (Pair 1 (Pair 2 Unit)))
 emitted operations
@@ -63,8 +87,15 @@ map diff:
   + 0-> ""
   + 1-> "a"
   + 2-> "b"
+~~~~
 
-$ tezos-client run script safe_queue.tz on storage '(Pair {Elt 0 "";Elt 1 "a";Elt 2 "b"} (Pair 1 (Pair 2 Unit)))' and input 'None'
+- The first element is properly removed and the first key counter properly goes up by 1.
+
+```tezos-client run script [path to]/safe_queue_big.tz on storage '(Pair {Elt 0 "";Elt 1 "a";Elt 2 "b"} (Pair 1 (Pair 2 Unit)))' and input 'None'```
+
+Output: 
+
+~~~~
 storage
   (Pair {} (Pair 2 (Pair 2 Unit)))
 emitted operations
@@ -73,23 +104,27 @@ map diff:
   + 0-> ""
   - 1
   + 2-> "b"
+~~~~
 
-$ tezos-client run script [path to]/safe_queue.tz on storage '(Pair {Elt 0 "";Elt 2 "b"} (Pair 2 (Pair 2 Unit)))' and input '(Some "c")'
-storage
-  (Pair {} (Pair 2 (Pair 3 Unit)))
-emitted operations
- 
-map diff:
-  + 0-> ""
-  + 2-> "b"
-  + 3-> "c"
+## Map
 
-$ tezos-client run script [path to]/safe_queue.tz on storage '(Pair {Elt 0 "";Elt 2 "b";Elt 3 "c"} (Pair 2 (Pair 3 Unit)))' and input 'None'
+For the map version, it works similarly, except the queue is displayed directly:
+
+```tezos-client run script safe_queue.tz on storage '(Pair { Elt 1 "a" } (Pair 1 (Pair 1 Unit)))' and input 'None'```
+
+Output:
+~~~~
 storage
-  (Pair {} (Pair 3 (Pair 3 Unit)))
+  (Pair {} (Pair 2 (Pair 1 Unit)))
 emitted operations
- 
-map diff:
-  + 0-> ""
-  - 2
-  + 3-> "c"
+~~~~
+
+Removing the first element again gives the same output, as desired:
+
+```tezos-client run script safe_queue.tz on storage '(Pair {} (Pair 2 (Pair 1 Unit)))' and input 'None'```
+
+Output:
+~~~~
+storage
+  (Pair {} (Pair 2 (Pair 1 Unit)))
+emitted operations
