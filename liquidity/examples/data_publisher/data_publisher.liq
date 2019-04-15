@@ -15,7 +15,7 @@ type storage = {
 }
 
 let%entry main (param : (key, signature, nat, string, unit) option) current_storage =
-  match param with
+  match None with
     | None -> 
       ([],current_storage)
     | Some s ->
@@ -27,7 +27,7 @@ let%entry main (param : (key, signature, nat, string, unit) option) current_stor
             {key = s.key;
             signature = s.signature;
             counter = s.counter + 1p;
-            string = s.string;
+            message = s.message;
             nothing = ()}
           in
             ([], new_data)
