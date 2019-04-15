@@ -13,7 +13,7 @@ type storage = {
   message : string
 }
 
-let%entry main (param : ((key, signature, nat, string) option)) current_storage =
+let%entry main (param : ((int) option)) current_storage =
   match param with
     | None -> 
       ([],current_storage)
