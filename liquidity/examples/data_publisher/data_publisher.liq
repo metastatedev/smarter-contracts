@@ -10,12 +10,11 @@ type storage = {
   key : key;
   signature : signature;
   counter : nat;
-  message : string;
-  nothing : unit
+  message : string
 }
 
-let%entry main (param : (key, signature, nat, string, unit) option) current_storage =
-  match None with
+let%entry main (param : ((key, signature, nat, string) option)) current_storage =
+  match param with
     | None -> 
       ([],current_storage)
     | Some s ->
@@ -23,11 +22,11 @@ let%entry main (param : (key, signature, nat, string, unit) option) current_stor
         if not (Crypto.check s.key s.signature bytes) then
           failwith "Wrong signature"
         else 
-          let new_data = 
-            {key = s.key;
+          let new_data = {
+            key = s.key;
             signature = s.signature;
             counter = s.counter + 1p;
-            message = s.message;
-            nothing = ()}
+            message = s.message
+            }
           in
             ([], new_data)
