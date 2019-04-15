@@ -14,21 +14,18 @@ type storage = {
 }
 
 let%entry main (param : (signature, nat, string, unit) option) current_storage =
-  let new_storage = 
-    match param with
-      | None -> 
-        current_storage
-      | Some _ ->
-      (*  let bytes = Bytes.pack message in
-          if not (Crypto.check key signature bytes) then
-            failwith "Wrong signature"
-          else 
-            let new_data = 
-              {signature = signature;
-              counter = counter + 1p;
-              string = string;
-              nothing = ()}
-            in *)
-        current_storage 
-  in
-          ([], new_data)
+  match param with
+    | None -> 
+      ([],current_storage)
+    | Some {signature;counter;message;nothing} ->
+      let bytes = Bytes.pack message in
+        if not (Crypto.check key signature bytes) then
+          failwith "Wrong signature"
+        else 
+          let new_data = 
+            {signature = signature;
+            counter = counter + 1p;
+            string = string;
+            nothing = ()}
+          in
+            ([], new_data)
