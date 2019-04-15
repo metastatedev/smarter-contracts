@@ -7,25 +7,27 @@
  * Otherwise, the data is updated if the data is supplied along with the authentic key. *)
 
 type storage = {
+  key : key;
   signature : signature;
   counter : nat;
   message : string;
   nothing : unit
 }
 
-let%entry main (param : (signature, nat, string, unit) option) current_storage =
+let%entry main (param : (key, signature, nat, string, unit) option) current_storage =
   match param with
     | None -> 
       ([],current_storage)
-    | Some {signature;counter;message;nothing} ->
-      let bytes = Bytes.pack message in
-        if not (Crypto.check key signature bytes) then
+    | Some s ->
+      let bytes = Bytes.pack s.message in
+        if not (Crypto.check s.key s.signature bytes) then
           failwith "Wrong signature"
         else 
           let new_data = 
-            {signature = signature;
-            counter = counter + 1p;
-            string = string;
+            {key = s.key;
+            signature = s.signature;
+            counter = s.counter + 1p;
+            string = s.string;
             nothing = ()}
           in
             ([], new_data)
