@@ -16,7 +16,10 @@ type storage = {
 let%entry main (param : (storage option)) current_storage =
   match param with
     | None -> 
-      ([],current_storage)
+      if Current.amount() < 1tz then
+        Current.failwith "Not enough money, queries cost 1 tez."
+      else
+        ([],current_storage)
     | Some s ->
       let bytes = Bytes.pack s.message in
         if not (Crypto.check s.key s.signature bytes) then
