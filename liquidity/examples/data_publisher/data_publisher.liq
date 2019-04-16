@@ -8,28 +8,38 @@
 
 type storage = {
   key : key;
-  signature : signature;
   counter : nat;
   message : string
 }
 
-let%entry main (param : (storage option)) current_storage =
+let %init storage = {
+  key =edpku5LTYXxXKTjmzj9qtHR6TTYH1K6JU7bFe8MyJs6qabUs9kiZes;
+  counter = 0p;
+  message = "init"
+}
+
+type parameter = {
+  signature : signature;
+  string : string;
+  number_of_op : nat
+}
+
+let%entry main (param : (parameter option)) storage =
   match param with
     | None -> 
       if Current.amount() < 1tz then
         Current.failwith "Not enough money, queries cost 1 tez."
       else
-        ([],current_storage)
-    | Some s ->
-      let bytes = Bytes.pack s.message in
-        if not (Crypto.check s.key s.signature bytes) then
-          failwith "Wrong signature"
+        ([], storage)
+    | Some p ->
+      let bytes = Bytes.pack p.string in
+        if not (Crypto.check storage.key p.signature bytes) && p.number_of_op = storage.counter then
+          failwith "Cannot authenticate."
         else 
           let new_data = {
-            key = s.key;
-            signature = s.signature;
-            counter = s.counter + 1p;
-            message = s.message
+            key = storage.key;
+            counter = storage.counter + 1p;
+            message = p.string
             }
           in
             ([], new_data)
