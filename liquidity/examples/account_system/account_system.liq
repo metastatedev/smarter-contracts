@@ -31,13 +31,13 @@ let%init storage (owners : address set) (min_agree : nat) =
   }
 
 (* fails if the proposition is not a valid one *)
-let[@inline] check_proposition p =
+let check_proposition p =
   if p.amount > Current.balance () then
     Current.failwith "Balance to low for withdrawal"
   else ()
 
 (* returns true if two proositions are identical *)
-let[@inline] equal_props (p1, p2) =
+let equal_props (p1, p2) =
   p1.destination = p2.destination &&
   p1.amount = p2.amount
 
