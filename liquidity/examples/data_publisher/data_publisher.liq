@@ -33,7 +33,7 @@ let%entry main (param : (parameter option)) storage =
         ([], storage)
     | Some p ->
       let bytes = Bytes.pack p.string in
-        if not (Crypto.check storage.key p.signature bytes) && p.number_of_op = storage.counter then
+        if not (Crypto.check storage.key p.signature bytes) || p.number_of_op <> storage.counter + 1p then
           failwith "Cannot authenticate."
         else 
           let new_data = {
