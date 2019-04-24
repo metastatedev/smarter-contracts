@@ -2,7 +2,9 @@
 
 type storage = address set
 
-let%init storage = Set [Current.source ()]
+(* let init_add = Current.source ()  *)
+  
+let%init storage = Set [KT1LLcCCB9Fr1hrkGzfdiJ9u3ZajbdckBFrF;KT1LLcCCB9Fr1hrkGzfdiJ9u3ZajbdckBFrF]
 
 let%entry main
       (_parameter : string)
