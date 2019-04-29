@@ -47,8 +47,7 @@ Fatal error:
 
 Run the command again, setting the burn cap to 1.579 or above:
 
-```tezos-client originate contract new_manager for alice transferring 1 from alice running ./manager.tz --init '"tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS"' --burn-cap 1.579
-```
+```tezos-client originate contract new_manager for alice transferring 1 from alice running ./manager.tz --init '"tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS"' --burn-cap 1.579```
 
 This time it successfully originate a contract, the output should look similar to this:
 
