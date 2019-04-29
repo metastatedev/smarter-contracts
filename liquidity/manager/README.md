@@ -45,7 +45,7 @@ Fatal error:
    Use `--burn-cap 1.579` to emit this operation.
 ~~~~
 
-We run the command again, setting the burn cap to 1.579 or above:
+Run the command again, setting the burn cap to 1.579 or above:
 
 ```tezos-client originate contract new_manager for alice transferring 1 from alice running ./manager.tz --init '"tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS"' --burn-cap 1.579
 ```
