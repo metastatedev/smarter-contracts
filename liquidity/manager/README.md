@@ -51,7 +51,8 @@ Run the command again, setting the burn cap to 1.579 or above:
 
 This time it successfully originate a contract, the output should look similar to this:
 
-~~~~Node is bootstrapped, ready for injecting operations.
+~~~~
+Node is bootstrapped, ready for injecting operations.
 Estimated gas: 40109 units (will add 100 for safety)
 Estimated storage: 1579 bytes added (will add 20 for safety)
 Operation successfully injected in the node.
@@ -177,22 +178,81 @@ Contract memorized as new_manager.
 
 The contract has the following functions:
 
-1. Transfer funds: 
+1. **Transfer funds**: 
  - the parameters to pass are 
    - the *key_hash* of the recipient that you want to send the fund to
    - the amount you want to send 
  - first entry point of the contract, pass the parameters by passing ```Left [parameters]```
-2. Set delegate: 
+2. **Set delegate**: 
  - the parameter to pass is the *key_hash* of the delegate
  - second entry point of the contract, pass the parameter by passing ```(Right (Left [parameter]))```
-3. Remove delegate
+3. **Remove delegate**:
  - the parameter to pass is *unit*
  - third entry point of the contract, pass the parameter by passing ```(Right (Right (Left [parameter])))```
-4. Change owner
+4. **Change owner**:
  - the parameter to pass is the new owner's address
- - fourth entry point of the contract, pass the parameter by passing ```(
+ - fourth entry point of the contract, pass the parameter by passing ```(Right (Right (Right [parameter])))```
  
- I provide some examples below:
+See below for examples.
+
+### Transfer funds
+
+To transfer 1tz to address tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, run the following command:
+
+```tezos-client transfer 10 from adam to new_manager --arg '(Left (Pair "tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS" 1000000))'```
+
+Note that the input for 1tz is 1000000.
+
+The output should be similar to below, which states the change in balances of the relevant addresses:
+
+~~~~
+Node is bootstrapped, ready for injecting operations.
+Estimated gas: 43664 units (will add 100 for safety)
+Estimated storage: no bytes added
+Operation successfully injected in the node.
+Operation hash is 'ooZ7j5bFknTAZm4VcXmVaiau55gtM9RdepBpFCu8UxNRMyKorvg'
+Waiting for the operation to be included...
+Operation found in block: BLJ1x4FEfkACgB5DfjU8zgVh4azEBUYpu4aZy99vbgPKsURNVbw (pass: 3, offset: 0)
+This sequence of operations was run:
+  Manager signed operations:
+    From: tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD
+    Fee to the baker: ꜩ0.004685
+    Expected counter: 40376
+    Gas limit: 43764
+    Storage limit: 0 bytes
+    Balance updates:
+      tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD ............. -ꜩ0.004685
+      fees(tz3NdTPb3Ax2rVW2Kq9QEdzfYFkRwhrQRPhX,166) ... +ꜩ0.004685
+    Transaction:
+      Amount: ꜩ10
+      From: tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD
+      To: KT1PTu7zW8rDMkHsLL9wkBJUH5PqJ2kdmSi8
+      Parameter: (Left (Pair "tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS" 1000000))
+      This transaction was successfully applied
+      Updated storage: 0x0000d8aebdc7e7d86e00d26b5f9c038dd87b01631ba6
+      Storage size: 1322 bytes
+      Consumed gas: 33557
+      Balance updates:
+        tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD ... -ꜩ10
+        KT1PTu7zW8rDMkHsLL9wkBJUH5PqJ2kdmSi8 ... +ꜩ10
+    Internal operations:
+      Transaction:
+        Amount: ꜩ1
+        From: KT1PTu7zW8rDMkHsLL9wkBJUH5PqJ2kdmSi8
+        To: tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
+        Parameter: Unit
+        This transaction was successfully applied
+        Consumed gas: 10107
+        Balance updates:
+          KT1PTu7zW8rDMkHsLL9wkBJUH5PqJ2kdmSi8 ... -ꜩ1
+          tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS ... +ꜩ1
+
+The operation has only been included 0 blocks ago.
+We recommend to wait more.
+Use command
+  tezos-client wait for ooZ7j5bFknTAZm4VcXmVaiau55gtM9RdepBpFCu8UxNRMyKorvg to be included --confirmations 30 --branch BMdv1DTBMffstCzmEYFJQusMB36y4oKLyZrrJL1nXBKAGMyqWhC
+and/or an external block explorer.
+~~~~
 
 ### Set delegate
 
@@ -200,7 +260,7 @@ To set a new delegate to tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD, run the following
 
 ```tezos-client transfer 10 from alice to new_manager --arg '(Right (Left "tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6"))'```
 
-The output should be similar to this, stating that the delegate is set to the new address that we pass in:
+The output should be similar to below, which states that the delegate is set to the new address that we pass in:
 
 ~~~~
 Node is bootstrapped, ready for injecting operations.
