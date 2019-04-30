@@ -49,7 +49,7 @@ Run the command again, setting the burn cap to 1.579 or above:
 
 ```tezos-client originate contract new_manager for alice transferring 1 from alice running ./manager.tz --init '"tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS"' --burn-cap 1.579```
 
-This time it successfully originate a contract, the output should look similar to this:
+This time it successfully originates a contract, the output should look similar to this:
 
 ~~~~
 Node is bootstrapped, ready for injecting operations.
@@ -203,7 +203,7 @@ To transfer 1tz to address tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, run the followi
 
 Note that the input for 1tz is 1000000.
 
-The output should be similar to below, which states the change in balances of the relevant addresses:
+The output should be similar to below, which states the change in the balances of the relevant addresses:
 
 ~~~~
 Node is bootstrapped, ready for injecting operations.
@@ -320,7 +320,7 @@ To removing a delegate, we pass the input *unit* to the third entry point by run
 
 ```tezos-client transfer 10 from alice to new_manager --arg '(Right (Right (Left Unit)))'```
 
-The output states that delegate is set to *none*:
+The output states that delegate is set to nobody:
 ~~~~
 Node is bootstrapped, ready for injecting operations.
 Estimated gas: 43491 units (will add 100 for safety)
@@ -377,7 +377,7 @@ To change the owner of the contract to tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD, we 
 
 ```tezos-client transfer 10 from alice to new_manager --arg '(Right (Right (Right "tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD")))'```
 
-The output indicates that the storage has been updated to the new owner's address (in optimized form): 
+The output indicates that the storage has been updated to the new owner's address (in optimized format): 
 
 ~~~~
 Node is bootstrapped, ready for injecting operations.
