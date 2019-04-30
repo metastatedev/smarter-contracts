@@ -9,7 +9,7 @@ Compile manager.liq to manager.tz by running:
 
 To originate the contract, run (see the [client manual](https://tezos.gitlab.io/alphanet/api/cli-commands.html#client-manual) for complete list of options):
 
-```tezos-client originate contract *new* for *mgr* transferring *qty* from *src* running *prg* --init '"[KT1 address]"'```
+```tezos-client originate contract *new* for *mgr* transferring *qty* from *src* running *prg* --init '"[owner's address]"'```
 
 in which
 
