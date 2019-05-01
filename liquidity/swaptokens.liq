@@ -1,3 +1,14 @@
+(* Token contract signature. *)
+contract type NatContract = sig
+  type storage
+  val%entry main : nat -> _
+end
+
+contract type NatNatContract = sig
+  type storage
+  val%entry main : nat * nat -> _
+end
+
 contract type Token = sig
 
   type account = {
@@ -24,10 +35,12 @@ contract type Token = sig
   val%entry createAccounts : (address * nat) list -> _
 
 end
+(* End of signature. *)
 
 type storage = unit
 
-let%entry main ((a : nat), (b : nat), (a_from_add : address), (b_from_add : address), (c : Token.instance)) _ =
-  let opa = Contract.call ~dest:c ~entry:transferFrom ~parameter:TODO ~amount in
-    let opb =  in
+let%entry main ((a : nat), (b : nat), (a_from_add : address), (b_from_add : address), (a_c : Token.instance), (b_c : Token.instance)) _ =
+  let amount = 1tz in
+    let opa = a_c.transferFrom (a_from_add,b_from_add,a) ~amount in
+      let opb = b_c.transferFrom (b_from_add,a_from_add,b) ~amount in
       [opa; opb], ()
