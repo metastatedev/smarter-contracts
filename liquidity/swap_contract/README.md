@@ -13,78 +13,15 @@ To execute a swap the following contract must be originated in Tezos:
 
 ### Token contracts:
 
-The token systems of the tokens to be swapped must already be in place.  The token systems' contract addresses will be passed to the swap contract as inputs.
+The token systems of the tokens to be swapped must already be in place.  The token systems' contract addresses will be passed to the swap contract as inputs.  See [this](https://github.com/cryptiumlabs/smarter-contracts/blob/master/liquidity/token/README.md) for more information on the token contract.
 
-To originate a token system, run: 
-
-```tezos-client originate contract [name of the token contract] for [manager of the token contract] transferring [amount to transfer from source] from [address that pays for the origination] running [the token script in .tz] --init [the initial storage]``` 
-
-The token script has a storage initializer that initializes the initial storage.  The inputs to pass to the initializer include:
-
-- **owner** (owner of the token system, only this owner can create accounts /mint tokens, of type (KT1/tz1) *address*): 
-e.g., tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
-- **totalSupply** (total supply of this type of tokens, of type *nat*): e.g., 500p
-- **Decimals** (the number of decimals the token uses - e.g. 4, means to divide the token amount by 10000 to get its user representation, of type *nat*): 
-e.g., 0p
-- **name** (the name of the token, of type *string*): e.g., "TokenA" or "TokenB" 
-- **symbol** (symbol representation of the token, of type *string*): e.g.,"A" or "B" 
-
-Token A Storage:
-has both alice and bob’s address in it 
-Allowances should be zero before approval, after approval allowance is altered to allow transfer from alice to bob 5 tokenA
-Owns by alice but can be owned by a third party
-{
-  accounts =
-    (BigMap
-       [(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS,
-          {
-            balance = 100p;
-            allowances = (Map [(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, 0p);(tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6, 0p)])
-          }) ;
-         (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6,
-           {
-             balance = 100p;
-            allowances = (Map
-[(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, 0p);(tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6, 0p)])
-          })]);
-  version = 0p;
-  totalSupply = 200p;
-  decimals = 0p;
-  name = "tokena";
-  symbol = "a";
-  owner = tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
-}
-Token B Storage:
- has both alice and bob’s address in it
-Allowances should be zero before approval, after approval allowance is altered to allow transfer from Bob to Alice 10 tokenB:
-{
-  accounts =
-    (BigMap
-       [(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS,
-          {
-            balance = 100p;
-            allowances = (Map [(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, 0p);(tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6, 0p)])
-          }) ;
-         (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6,
-           {
-             balance = 100p;
-            allowances = (Map
-[(tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS, 0p);(tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6, 0p)])
-          })]);
-  version = 0p;
-  totalSupply = 200p;
-  decimals = 0p;
-  name = "tokenb";
-  symbol = "b";
-  owner = tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
-}
-
-Take note of the contract addresses (KT1), to be passed in the swap contract as parameters.
-
-
-The Swap contract:
+### The Swap contract:
  
-The swap contractStorage: 
+The swap contract storage contains the following information:
+- addresses of the token contracts that describes that token systems.  E.g., token A () and token B ().
+- addresses of the two parties that are involved in the swap. E.g., Alice (tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS) and Bob (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6).
+- the agreed swap amounts. E.g., Alice gives 5 token A to Bob and gets 10 token B from Bob.
+Storage: 
 Parameters: 
 token a transfer amount, 
 token b transfer amount,
@@ -104,6 +41,7 @@ The token B contract’s transferFrom entry point, transferring token B from Bob
 The contract returns [opa;opb],()
 
 Problem: 
+How to have both party agree to the amount and ratio?  one person is the originator of the swap contract, the other (the launcher) review the storage of the originated contract, then call it.  The originator has to input the agreed transfer amounts and the addresses of the originator and the launcher.  Only the launcher (as input in the storage) can call the contract, after verifying the content in the storage regarding the exchange amounts.
 how does one check that the allowances are the appropriate amounts?  The allowance entry’s output is an operation that calls another contract with the allowance as the parameter.
 How does one make sure both transfers succeed or fail together?  
 One needs to check that all conditions that may cause the transfer to fail
