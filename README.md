@@ -1,4 +1,4 @@
-*Contracts in this repository are work-in-progress.  Do not use them in production.  No support will be provided.*
+***Contracts in this repository are work-in-progress.  Do not use them in production.  No support will be provided.***
 
 ## Smarter Contracts
 
