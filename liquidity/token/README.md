@@ -6,9 +6,11 @@ To start a token system, one first has to originate the token contract on the Te
 
 ## Deploy the token contract
 
-To originate a token system, run: 
+To originate a token system using the tezos-client, run: 
 
 ```tezos-client originate contract [name of the token contract] for [manager of the token contract] transferring [amount to transfer from source] from [address that pays for the origination] running [the token script in .tz] --init [the initial storage]``` 
+
+Alternatively, one can originate the contract using [Liquidity](http://www.liquidity-lang.org/doc/usage/index.html#running-a-simulation-of-the-contract) or the [Liquidity online editor](http://www.liquidity-lang.org/edit/).
 
 The token script has a storage initializer that initializes the initial storage.  The inputs to pass to the initializer include:
 
