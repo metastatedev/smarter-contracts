@@ -18,7 +18,7 @@ The token systems of the tokens to be swapped must already be in place.  The tok
 ### The Swap contract:
  
 The swap contract storage contains the following information:
-- addresses of the token contracts that describes that token systems.  E.g., token A () and token B ().
+- addresses of the token contracts/systems.  E.g., token A (KT1D7UF5Yqtn7QyqH6ty9Sw62oZaUgcZHNXL) and token B (KT1TdDXW1AjDrekZmUSuy98HwhRBXmD3znwg).
 - addresses of the two parties that are involved in the swap. E.g., Alice (tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS) and Bob (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6).
 - the agreed swap amounts. E.g., Alice gives 5 token A to Bob and gets 10 token B from Bob.
 Storage: 
@@ -40,9 +40,11 @@ the token A contract’s transferFrom entry point, transferring token A from Ali
 The token B contract’s transferFrom entry point, transferring token B from Bob to Alice = opb
 The contract returns [opa;opb],()
 
-Problem: 
+Problems: 
 How to have both party agree to the amount and ratio?  one person is the originator of the swap contract, the other (the launcher) review the storage of the originated contract, then call it.  The originator has to input the agreed transfer amounts and the addresses of the originator and the launcher.  Only the launcher (as input in the storage) can call the contract, after verifying the content in the storage regarding the exchange amounts.
+
 how does one check that the allowances are the appropriate amounts?  The allowance entry’s output is an operation that calls another contract with the allowance as the parameter.
+
 How does one make sure both transfers succeed or fail together?  
 One needs to check that all conditions that may cause the transfer to fail
 A function that simulates the transfer, and checks if it fails will be helpful (No such function was found.)
