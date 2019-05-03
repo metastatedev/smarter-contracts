@@ -19,16 +19,16 @@ e.g., tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS
 - **symbol** (symbol representation of the token, of type *string*): e.g.,"A" or "B" 
 
 The initial storage has the following fields:
-
-{
-  accounts = BigMap;
-  version = 1p;
-  totalSupply = 500p;
-  name = "TokenB";
-  symbol = "B";
-  owner = (tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS : address)
-}
-
+~~~~
+{ 
+  accounts = BigMap; 
+  version = 1p; 
+  totalSupply = 500p; 
+  name = "TokenB"; 
+  symbol = "B"; 
+  owner = (tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS : address) 
+} 
+~~~~
 After the deployment, the "accounts" field is an empty *BigMap*.  The owner (in this example,tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS) can add accounts and transfer tokens into these accounts. 
 
 ## Create accounts
