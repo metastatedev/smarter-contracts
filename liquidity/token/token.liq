@@ -7,13 +7,12 @@ type storage = {
   accounts : (address, account) big_map;
   version : nat; (* version of token standard *)
   totalSupply : nat;
-  decimals : nat;
   name : string;
   symbol : string;
   owner : address;
 }
 
-let%init storage owner totalSupply decimals name symbol =
+let%init storage owner totalSupply name symbol =
   let owner_account  =
     { balance = totalSupply;
       allowances = Map } in
@@ -23,7 +22,6 @@ let%init storage owner totalSupply decimals name symbol =
     accounts;
     version = 1p;
     totalSupply;
-    decimals;
     name;
     symbol;
     owner;
