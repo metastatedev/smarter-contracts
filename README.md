@@ -1,6 +1,6 @@
-## Smarter Contracts
+***Contracts in this repository are work-in-progress.  Do not use them in production.  No support will be provided.***
 
-**The contracts in this repository are work-in-progress.  Do not use them in production.  No support will be provided.**
+## Smarter Contracts
 
 Application-layer smart contracts &amp; tooling.
 
