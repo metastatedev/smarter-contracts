@@ -72,5 +72,15 @@ The *approve* entry point lets an account holder set an amount of tokens that co
 
 After the allowance is set, other contracts can call the *transferFrom* entry point and perform a transfer from the account holder to the specified recipient, up to the allowance amount.  Once a *transferFrom* is performed, the allowance amount is updated.  
 
+For Adam to approve an amount of 30 token A to Bob, Adam has to call the contract (Token A's contract address) with the input of (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6,30p).  After the operation was included, one can confirm that the new allowance is set:
+
+```tezos-client get big map value for '"tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD"' of type address in KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum```
+
+The output now has the allowance map updated with Bob's address (in optimized format) and the allowance amount:
+
+~~~~
+Pair 200 { Elt 0x000041145574571df6030acad578fdc8d41c4979f0df 30 }
+~~~~
+
 
 
