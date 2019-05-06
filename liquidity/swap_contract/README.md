@@ -71,16 +71,16 @@ Here I provide an example on how the swap contract can be called.  In this examp
 
 ### Initial balances
 
-For reference, here is Bob's balance of Token A before Adam transfers him 30:
+For reference, let check Bob's balance of Token A before Adam transfers him 30:
 
 ```tezos-client get big map value for '"tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6"' of type address in KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum```
 
-Bob has 100 Token A before the transfer:
+The output shows that Bob has 100 Token A before the transfer:
 ~~~~
 Pair 100 {}
 ~~~~
 
-Adam's balance of Token B before Bob transfers him 60:
+Now let's check Adam's balance of Token B before Bob transfers him 60:
 
 ```tezos-client get big map value for '"tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD"' of type address in KT19yAMFum5MmD99kusQiCBGpTEVC1B52f9Q```
 
@@ -89,7 +89,9 @@ Adam has 200 Token B before the transfer:
 Pair 200 {}
 ~~~~
 
-### Conditions for the swap contract call to be successful:
+### Conditions for the swap contract call to be successful
+
+The swap contract checks the following before it performs any transfers:
 
 **C1**. Adam (tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD) has to have at least 30 Token A in the Token A system (KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum).  
 **C2**. Adam has to have approved at least 30 Token A to Bob (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6).  
