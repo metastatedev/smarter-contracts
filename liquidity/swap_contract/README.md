@@ -1,9 +1,13 @@
 # Swapping fungible tokens on Tezos:
 
-see if you can write a simple swap contract which uses transferFrom
-e.g. users Alice and Bob want to swap 5 tokenA for 10 tokenB
-and they don't trust each other
-so they both approve a swap contract, which calls transferFrom appropriately to atomically swap their tokens in one transaction
+This contract facilitates swapping of tokens between two parties.  It checks that 
+
+- the parties agree to the swapping amounts.
+- the parties have approve the agreed amounts and have enough balance for the agreed amounts.
+
+Once verified, the transfers of the tokens are called.  Unless there are other error, the transfers should both succeed. 
+
+This contract builds on tokens that are initiated with the [token contract](https://github.com/cryptiumlabs/smarter-contracts/tree/master/liquidity/token), and calls the *transferFrom* entry point of that contract.
 
 ## Contract Overview:
 
