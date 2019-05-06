@@ -65,5 +65,52 @@ Then op3 = [contract call for transfer of token b] because it’s a list of sequ
                 
 Use an escrow: each party transfer their tokens to the escrow first, then if the escrow has the correct amounts for both tokens, the op list can fire, otherwise, fire failwith “Transfer failed.” (Doesn’t work, because it causes the same problem of having to check the balance of the escrow account!)
 
+## An example contract call
+
+Here I provide an example on how the swap contract can be called.  In this example, **Adam agrees to give Bob 30 Token A to get 60 Token B from Bob**.
+
+Conditions for the swap contract call to be successful:
+
+C1. Adam (tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD) has to have at least 30 Token A in the Token A system (KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum).
+C2. Adam has to have approved at least 30 Token A to Bob (tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6).
+C3. Bob has to have at least 60 Token B in the Token B system (KT19yAMFum5MmD99kusQiCBGpTEVC1B52f9Q).
+C4. Bob has to have approved at least 60 Token A to Adam.
+
+To check C1 and C2, one can run the following command on the Tezos CLI:
+
+```tezos-client get big map value for '"tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD"' of type address in KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum```
+
+The output shows that Adam has a balance of 200 Token A and he has set the allowance to Bob to be 30:
+
+~~~~
+Pair 200 { Elt 0x000041145574571df6030acad578fdc8d41c4979f0df 30 }
+~~~~
+
+To check C3 and C3, run:
+
+```tezos-client get big map value for '"tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6"' of type address in KT19yAMFum5MmD99kusQiCBGpTEVC1B52f9Q```
+
+The output shows that Bob has a balance of 200 Token B and he has set the allowance to Adam to be 60:
+~~~~
+Pair 200 { Elt 0x0000d8aebdc7e7d86e00d26b5f9c038dd87b01631ba6 60 }
+~~~~
+
+For reference, here is Bob's balance of Token A before Adam transfers him 30:
+
+```tezos-client get big map value for '"tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6"' of type address in KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum```
+
+Bob has 100 Token A before the transfer:
+~~~~
+Pair 100 {}
+~~~~
+
+Adam's balance of Token B before Bob transfers him 60:
+
+```tezos-client get big map value for '"tz1fPjyo55HwUAkd1xcL5vo6DGzJrkxAMpiD"' of type address in KT19yAMFum5MmD99kusQiCBGpTEVC1B52f9Q```
+
+Adam has 200 Token B before the transfer:
+~~~~
+Pair 200 {}
+~~~~
 
 
