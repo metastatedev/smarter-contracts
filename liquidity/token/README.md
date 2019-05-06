@@ -40,9 +40,9 @@ To create an account, choose the entry point *createAccount* with the parameters
 - the address of the owner
 - the amount of tokens this address owns
 
-To create mulitple accounts, choose the entry point *createAccounts* and the parameter is a list of pairs of (address, [amount of tokens]).
+To create mulitple accounts, choose the entry point *createAccounts*, and the parameter is a list of pairs of (address, [amount of tokens]).
 
-After the accounts are created, the big map of accounts is updated with the new accounts and their balances.  The accounts also has a map of *allowance* associated with each address, describing the amounts allowed to other account holders from the associated account holder.
+After the accounts are created, the big map of accounts is updated with the new accounts and their balances.  The accounts also has a map of *allowance* associated with each address (see next section), describing the amounts allowed to other account holders from the associated account holder.
 
 To check that the accounts are created, one can use the Tezos CLI.  To check that an account with 200 token A was created for Adam of address tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6, run:
 
@@ -54,13 +54,23 @@ The output is a pair of *balance* of type *nat* and *allowance* of type *map*.  
 Pair 200 {}
 ~~~~
 
-Bob of address tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6 has no account and the ouput shows an error:
+Bob of address tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6 has no account and the ouput shows an error: 
 ````tezos-client get big map value for '"tz1Ra8yQVQN4Nd7LpPQ6UT6t3bsWWqHZ9wa6"' of type address in KT1Gu5MXA5RpXo2veYc7n33QVmH1rdTVZhum````
 
 ~~~~
 Fatal error:
   No value associated to this key.
 ~~~~
+
+## Transfer tokens
+
+The *transfer* entry point lets an account holder transfer tokens to an address.  The parameter input to this entry point is an *(address, nat) pair*, describing the recipient address and the tokens to be transferred. 
+
+## Set allowance (approve)
+
+The *approve* entry point lets an account holder set an amount of tokens that contracts can transfer on the account holder's behalf.  *allowance* is of type *(address, nat) map*.  Each map entry describes an allowance amount to a recipient address.
+
+After the allowance is set, other contracts can call the *transferFrom* entry point and perform a transfer from the account holder to the specified recipient, up to the allowance amount.  Once a *transferFrom* is performed, the allowance amount is updated.  
 
 
 
