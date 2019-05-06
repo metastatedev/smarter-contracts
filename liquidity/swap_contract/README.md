@@ -1,13 +1,13 @@
 # Swapping fungible tokens on Tezos:
 
-This contract facilitates swapping of tokens between two parties.  It checks that 
+This contract facilitates **token swaps between two parties**.  Imagine a market place with asks and bids of two types of fungible tokens.  Once an ask offer is accepted, this contract can perform the transaction.  The parties do not need to know or trust each other once an agreement for the swap is reached.
+
+The swap contract builds on tokens that are initiated with the [token contract](https://github.com/cryptiumlabs/smarter-contracts/tree/master/liquidity/token), and calls the *transferFrom* entry point of that contract.  The swap contract checks that 
 
 - the parties agree to the swapping amounts.
 - the parties have approve the agreed amounts and have enough balance for the agreed amounts.
 
-Once verified, the transfers of the tokens are called.  Unless there are other error, the transfers should both succeed. 
-
-This contract builds on tokens that are initiated with the [token contract](https://github.com/cryptiumlabs/smarter-contracts/tree/master/liquidity/token), and calls the *transferFrom* entry point of that contract.
+Once verified, the transfers of the two tokens are called.  **Unless there are other errors**, the transfers should both succeed. 
 
 ## Contract Overview:
 
