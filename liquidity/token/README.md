@@ -31,8 +31,16 @@ The initial storage has the following fields:
   owner = (tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS : address) 
 } 
 ~~~~
-After the deployment, the "accounts" field is an empty *BigMap*.  The owner (in this example,tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS) can add accounts and transfer tokens into these accounts. 
+After the deployment, the "accounts" field is an empty *BigMap*.  The owner (in this example,tz1ccqAEwfPgeoipnXtjAv1iucrpQv3DFmmS) can add accounts and transfer tokens into these accounts with the *createAccount* or *createAccounts* entry points. 
 
-## Create accounts
+## Create account(s)
+
+To create an account, choose the entry point *createAccount* with the parameters:
+
+- the address of the owner
+- the amount of tokens this address owns
+
+To create mulitple accounts, choose the entry point *createAccounts* and the parameter is a list of pairs of (address, [amount of tokens]).
+
 
 
