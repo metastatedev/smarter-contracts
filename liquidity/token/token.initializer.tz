@@ -1,10 +1,11 @@
-parameter (pair address (pair nat string));
+parameter (pair address (pair nat (pair string string)));
 storage
   (pair :storage
      (big_map :accounts
         address
         (pair :account (nat %balance) (map %allowances address nat)))
-     (pair (nat %totalSupply) (pair (string %name) (address %owner))));
+     (pair (nat %version)
+           (pair (nat %totalSupply) (pair (string %name) (pair (string %symbol) (address %owner))))));
 code { DUP ;
        DIP { CDR @_storage } ;
        CAR @_parameter ;
@@ -13,33 +14,47 @@ code { DUP ;
        { DIP { DUP } ; SWAP } ;
        { CDR ; CAR } ;
        { DIP { { DIP { DUP } ; SWAP } } ; SWAP } ;
-       { CDR ; CDR } ;
+       { CDR ; CDR ; CAR } ;
+       { DIP { { DIP { { DIP { DUP } ; SWAP } } ; SWAP } } ; SWAP } ;
+       { CDR ; CDR ; CDR } ;
        PUSH (map address nat) {} ;
-       { DIP { { DIP { DUP @totalSupply } ; SWAP } } ; SWAP } ;
+       { DIP { { DIP { { DIP { DUP @totalSupply } ; SWAP } } ; SWAP } } ;
+         SWAP } ;
        PAIR @owner_account %balance %allowances ;
-       { DIP { { DIP { { DIP { { DIP { { DIP { DUP } ; SWAP } } ; SWAP } } ; SWAP } } ;
+       { DIP { { DIP { { DIP { { DIP { { DIP { { DIP { DUP } ; SWAP } } ; SWAP } } ; SWAP } } ;
+                         SWAP } } ;
                  SWAP } } ;
          SWAP } ;
        CAR ;
        { DIP { DUP @owner_account } ; SWAP } ;
-       { DIP { { DIP { { DIP { { DIP { { DIP { DUP @owner } ; SWAP } } ; SWAP } } ;
+       { DIP { { DIP { { DIP { { DIP { { DIP { { DIP { DUP @owner } ; SWAP } } ; SWAP } } ;
+                                 SWAP } } ;
                          SWAP } } ;
                  SWAP } } ;
          SWAP } ;
        DIP { SOME } ;
        UPDATE @accounts ;
-       { DIP { { DIP { { DIP { { DIP { DUP @owner } ; SWAP } } ; SWAP } } ;
+       { DIP { { DIP { { DIP { { DIP { { DIP { DUP @owner } ; SWAP } } ; SWAP } } ;
+                         SWAP } } ;
                  SWAP } } ;
          SWAP } ;
-       { DIP { { DIP { { DIP { DUP @name } ; SWAP } } ; SWAP } } ;
+       { DIP { { DIP { { DIP { DUP @symbol } ; SWAP } } ; SWAP } } ;
          SWAP } ;
-       PAIR %name %owner ;
-       { DIP { { DIP { { DIP { { DIP { DUP @totalSupply } ; SWAP } } ; SWAP } } ;
+       PAIR %symbol %owner ;
+       { DIP { { DIP { { DIP { { DIP { DUP @name } ; SWAP } } ; SWAP } } ;
+                 SWAP } } ;
+         SWAP } ;
+       PAIR %name ;
+       { DIP { { DIP { { DIP { { DIP { { DIP { DUP @totalSupply } ; SWAP } } ; SWAP } } ;
+                         SWAP } } ;
                  SWAP } } ;
          SWAP } ;
        PAIR %totalSupply ;
+       PUSH nat 1 ;
+       PAIR %version ;
        { DIP { DUP @accounts } ; SWAP } ;
        PAIR %accounts ;
+       DIP { DROP } ;
        DIP { DROP } ;
        DIP { DROP } ;
        DIP { DROP } ;
