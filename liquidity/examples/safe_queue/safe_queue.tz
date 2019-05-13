@@ -1,0 +1,63 @@
+parameter (option string);
+storage
+  (pair :storage
+     (map %map int string)
+     (pair (int %first_key) (pair (int %last_key) (unit %nothing))));
+code { DUP ;
+       DIP { CDR @current_queue_slash_1 } ;
+       CAR @param_slash_2 ;
+       DUUP @current_queue ;
+       CDDAR @l_key %last_key ;
+       DUUUP @current_queue ;
+       CDAR @f_key %first_key ;
+       PUSH int 1 ;
+       DUUUP @l_key ;
+       ADD @new_l_key ;
+       PUSH int 1 ;
+       DUUUP @f_key ;
+       ADD @new_f_key ;
+       DUUUUUP @param ;
+       IF_NONE
+         { PUSH int 0 ;
+           DUUUUUP @l_key ;
+           COMPARE ;
+           EQ ;
+           IF { DUUUUUUP @current_queue }
+              { UNIT ;
+                DUUUUUP @l_key ;
+                PAIR %last_key %nothing ;
+                PUSH int 1 ;
+                DUUUUUUP @l_key ;
+                ADD ;
+                DUUUP @new_f_key ;
+                COMPARE ;
+                GT ;
+                IF { DUUUUP @f_key } { DUUP @new_f_key } ;
+                PAIR %first_key ;
+                DUUUUUUUP @current_queue ;
+                CAR %map ;
+                DUUUUUP @f_key ;
+                DIP { NONE string } ;
+                UPDATE ;
+                PAIR %map } }
+         { UNIT ;
+           DUUUUP @new_l_key ;
+           PAIR %last_key %nothing ;
+           PUSH int 0 ;
+           DUUUUUUP @f_key ;
+           COMPARE ;
+           EQ ;
+           IF { DUUUP @new_f_key } { DUUUUUP @f_key } ;
+           PAIR %first_key ;
+           DUUUUUUUUP @current_queue ;
+           CAR %map ;
+           DUUUP @v ;
+           DUUUUUUP @new_l_key ;
+           DIP { SOME } ;
+           DIIIIP { DROP } ;
+           UPDATE ;
+           PAIR %map } ;
+       DIP { DROP ; DROP ; DROP ; DROP ; DROP ; DROP } ;
+       RENAME @new_queue ;
+       NIL operation ;
+       PAIR };

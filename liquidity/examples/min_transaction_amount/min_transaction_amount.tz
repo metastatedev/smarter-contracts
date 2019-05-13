@@ -1,0 +1,15 @@
+parameter unit;
+storage mutez;
+code { DUP ;
+       DIP { CDR @min_amount_slash_1 } ;
+       CAR @__slash_2 ;
+       DUUP @min_amount ;
+       AMOUNT ;
+       COMPARE ;
+       LT ;
+       IF { PUSH string "Amount is less than the required minimum." ; FAILWITH }
+          { UNIT } ;
+       DROP ;
+       DROP ;
+       NIL operation ;
+       PAIR };

@@ -1,0 +1,48 @@
+parameter
+  (option
+     (pair :parameter (signature %signature) (pair (string %string) (nat %number_of_op))));
+storage (pair :storage (key %key) (pair (nat %counter) (string %message)));
+code { DUP ;
+       DIP { CDR @storage_slash_1 } ;
+       CAR @param_slash_2 ;
+       DUP @param ;
+       IF_NONE
+         { PUSH mutez 1000000 ;
+           AMOUNT ;
+           COMPARE ;
+           LT ;
+           IF { PUSH string "Not enough money, queries cost 1 tez." ; FAILWITH }
+              { DUUP @storage ; NIL operation ; PAIR } }
+         { PUSH nat 1 ;
+           DUUUUP @storage ;
+           CDAR %counter ;
+           ADD ;
+           DUUP @p ;
+           CDDR %number_of_op ;
+           COMPARE ;
+           NEQ ;
+           DUUP @p ;
+           CDAR %string ;
+           PACK @bytes ;
+           DUUUP @p ;
+           CAR %signature ;
+           DUUUUUUP @storage ;
+           CAR %key ;
+           CHECK_SIGNATURE ;
+           NOT ;
+           OR ;
+           IF { PUSH string "Cannot authenticate." ; FAILWITH }
+              { DUP @p ;
+                CDAR %string ;
+                PUSH nat 1 ;
+                DUUUUUP @storage ;
+                CDAR %counter ;
+                ADD ;
+                PAIR %counter %message ;
+                DUUUUP @storage ;
+                CAR %key ;
+                PAIR @new_data %key ;
+                NIL operation ;
+                PAIR } ;
+           DIP { DROP } } ;
+       DIP { DROP ; DROP } };

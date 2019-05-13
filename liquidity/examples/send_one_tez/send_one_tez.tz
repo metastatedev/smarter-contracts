@@ -1,0 +1,16 @@
+parameter key_hash;
+storage unit;
+code { DUP ;
+       DIP { CDR @_storage_slash_1 } ;
+       DIP { DROP } ;
+       CAR @key_slash_2 ;
+       IMPLICIT_ACCOUNT ;
+       PUSH mutez 1000000 ;
+       UNIT ;
+       TRANSFER_TOKENS @op ;
+       UNIT ;
+       NIL operation ;
+       DUUUP ;
+       DIIIP { DROP } ;
+       CONS ;
+       PAIR };
