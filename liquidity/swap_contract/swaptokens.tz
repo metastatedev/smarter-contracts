@@ -1,0 +1,90 @@
+parameter (pair address (pair key signature));
+storage
+  (pair :storage
+     (nat %offered_amount)
+     (pair (nat %accepted_amount)
+           (pair (contract :Token %offered_token
+                    (or :_entries
+                       (pair %_Liq_entry_transfer address nat)
+                       (or (pair %_Liq_entry_approve address nat)
+                           (or (pair %_Liq_entry_transferFrom address (pair address nat))
+                               (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
+                                   (or (pair %_Liq_entry_allowance
+                                          address
+                                          (pair address (contract :NatNatContract (pair nat nat))))
+                                       (or (pair %_Liq_entry_createAccount address nat)
+                                           (list %_Liq_entry_createAccounts (pair address nat)))))))))
+                 (contract :Token %accepted_token
+                    (or :_entries
+                       (pair %_Liq_entry_transfer address nat)
+                       (or (pair %_Liq_entry_approve address nat)
+                           (or (pair %_Liq_entry_transferFrom address (pair address nat))
+                               (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
+                                   (or (pair %_Liq_entry_allowance
+                                          address
+                                          (pair address (contract :NatNatContract (pair nat nat))))
+                                       (or (pair %_Liq_entry_createAccount address nat)
+                                           (list %_Liq_entry_createAccounts (pair address nat))))))))))));
+code { DUP ;
+       DIP { CDR @storage_slash_1 } ;
+       CAR @_offerer_key_signature_slash_2 ;
+       DUP ;
+       CAR @offerer ;
+       PUSH @amount mutez 0 ;
+       SOURCE @accepter ;
+       SELF ;
+       PACK ;
+       DUUUUUP ;
+       CDDR @signature ;
+       DUUUUUUP ;
+       CDAR @key ;
+       CHECK_SIGNATURE ;
+       IF { DUUUUUP @storage ;
+            CDDAR %offered_token ;
+            DUUUP @amount ;
+            DUUUUUUUP @storage ;
+            CAR %offered_amount ;
+            DUUUUP @accepter ;
+            PAIR ;
+            DUUUUUUP @offerer ;
+            PAIR ;
+            LEFT %_Liq_entry_transferFrom %
+              (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
+                  (or (pair %_Liq_entry_allowance
+                         address
+                         (pair address (contract :NatNatContract (pair nat nat))))
+                      (or (pair %_Liq_entry_createAccount address nat)
+                          (list %_Liq_entry_createAccounts (pair address nat))))) ;
+            RIGHT % %_ (pair address nat) ;
+            RIGHT % %_ (pair address nat) ;
+            TRANSFER_TOKENS @opa ;
+            DUUUUUUP @storage ;
+            CDDDR %accepted_token ;
+            DUUUUP @amount ;
+            DUUUUUUUUP @storage ;
+            CDAR %accepted_amount ;
+            DUUUUUUUP @offerer ;
+            PAIR ;
+            DUUUUUP @accepter ;
+            PAIR ;
+            LEFT %_Liq_entry_transferFrom %
+              (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
+                  (or (pair %_Liq_entry_allowance
+                         address
+                         (pair address (contract :NatNatContract (pair nat nat))))
+                      (or (pair %_Liq_entry_createAccount address nat)
+                          (list %_Liq_entry_createAccounts (pair address nat))))) ;
+            RIGHT % %_ (pair address nat) ;
+            RIGHT % %_ (pair address nat) ;
+            TRANSFER_TOKENS @opb ;
+            DUUUUUUUP @storage ;
+            NIL operation ;
+            DUUUP @opb ;
+            DIIIP { DROP } ;
+            CONS ;
+            DUUUP ;
+            DIIIP { DROP } ;
+            CONS ;
+            PAIR }
+          { PUSH string "Wrong signature" ; FAILWITH } ;
+       DIP { DROP ; DROP ; DROP ; DROP ; DROP } };
