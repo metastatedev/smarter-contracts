@@ -65,7 +65,7 @@ let%entry approve (spender, tokens) storage =
 let%entry transferFrom (from, dest, tokens) storage =
   let account_from = get_account (from, storage.accounts) in
   let new_allowances_from =
-    match Map.find (Current.sender ()) account_from.allowances with
+    match Map.find dest account_from.allowances with
     | None -> failwith ("Not allowed to spend from", from)
     | Some allowed ->
       match is_nat (allowed - tokens) with
@@ -73,9 +73,9 @@ let%entry transferFrom (from, dest, tokens) storage =
         failwith ("Not enough allowance for transfer", allowed)
       | Some allowed ->
         if allowed = 0p then
-          Map.remove (Current.sender ()) account_from.allowances
+          Map.remove dest account_from.allowances
         else
-          Map.add (Current.sender ()) allowed account_from.allowances in
+          Map.add dest allowed account_from.allowances in
   let account_from = account_from.allowances <- new_allowances_from in
   let storage = storage.accounts <-
       Map.add from account_from storage.accounts in
