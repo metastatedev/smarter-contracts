@@ -1,4 +1,4 @@
-The majority of this token standard is adopted from [here](https://github.com/OCamlPro/liquidity/blob/next/tests/others/token.liq).  A comparable Ethereum standard can be found [here](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
+This token standard was inspired by [this](https://github.com/OCamlPro/liquidity/blob/next/tests/others/token.liq).  A comparable Ethereum standard can be found [here](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md).
 
 # Start a token system
 
