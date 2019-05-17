@@ -44,13 +44,15 @@ type storage = {
   accepted_token : Token.instance;
 }
 
-let%entry main (offerer, key, signature)  storage =
+let%entry main (key, signature)  storage =
   let amount = 0tz in
     let accepter = Current.source () in
-      if Crypto.check key signature (Bytes.pack (Contract.self ())) then
-        let opa = storage.offered_token.transferFrom (offerer,accepter,storage.offered_amount) ~amount in
-          let opb = storage.accepted_token.transferFrom (accepter,offerer,storage.accepted_amount) ~amount in
-            [opa;opb], storage
-      else 
-        failwith "Wrong signature"
+      let offerer_hash = Crypto.hash_key key in
+        let offerer = Contract.address (Account.default offerer_hash) in
+          if Crypto.check key signature (Bytes.pack (Contract.self ())) then
+            let opa = storage.offered_token.transferFrom (offerer,accepter,storage.offered_amount) ~amount in
+              let opb = storage.accepted_token.transferFrom (accepter,offerer,storage.accepted_amount) ~amount in
+                [opa;opb], storage
+          else 
+            failwith "Wrong signature"
         

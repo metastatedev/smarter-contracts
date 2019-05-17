@@ -1,4 +1,4 @@
-parameter (pair address (pair key signature));
+parameter (pair key signature);
 storage
   (pair :storage
      (nat %offered_amount)
@@ -27,26 +27,29 @@ storage
                                            (list %_Liq_entry_createAccounts (pair address nat))))))))))));
 code { DUP ;
        DIP { CDR @storage_slash_1 } ;
-       CAR @_offerer_key_signature_slash_2 ;
+       CAR @_key_signature_slash_2 ;
        DUP ;
-       CAR @offerer ;
+       CAR @key ;
        PUSH @amount mutez 0 ;
        SOURCE @accepter ;
+       DUUUP @key ;
+       HASH_KEY @offerer_hash ;
+       IMPLICIT_ACCOUNT ;
+       ADDRESS @offerer ;
        SELF ;
        PACK ;
-       DUUUUUP ;
-       CDDR @signature ;
        DUUUUUUP ;
-       CDAR @key ;
+       CDR @signature ;
+       DUUUUUUP @key ;
        CHECK_SIGNATURE ;
-       IF { DUUUUUP @storage ;
+       IF { DUUUUUUP @storage ;
             CDDAR %offered_token ;
-            DUUUP @amount ;
-            DUUUUUUUP @storage ;
+            DUUUUP @amount ;
+            DUUUUUUUUP @storage ;
             CAR %offered_amount ;
-            DUUUUP @accepter ;
+            DUUUUUP @accepter ;
             PAIR ;
-            DUUUUUUP @offerer ;
+            DUUUUP @offerer ;
             PAIR ;
             LEFT %_Liq_entry_transferFrom %
               (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
@@ -58,14 +61,14 @@ code { DUP ;
             RIGHT % %_ (pair address nat) ;
             RIGHT % %_ (pair address nat) ;
             TRANSFER_TOKENS @opa ;
-            DUUUUUUP @storage ;
+            DUUUUUUUP @storage ;
             CDDDR %accepted_token ;
-            DUUUUP @amount ;
-            DUUUUUUUUP @storage ;
+            DUUUUUP @amount ;
+            DUUUUUUUUUP @storage ;
             CDAR %accepted_amount ;
-            DUUUUUUUP @offerer ;
+            DUUUUUP @offerer ;
             PAIR ;
-            DUUUUUP @accepter ;
+            DUUUUUUP @accepter ;
             PAIR ;
             LEFT %_Liq_entry_transferFrom %
               (or (pair %_Liq_entry_balanceOf address (contract :NatContract nat))
@@ -77,7 +80,7 @@ code { DUP ;
             RIGHT % %_ (pair address nat) ;
             RIGHT % %_ (pair address nat) ;
             TRANSFER_TOKENS @opb ;
-            DUUUUUUUP @storage ;
+            DUUUUUUUUP @storage ;
             NIL operation ;
             DUUUP @opb ;
             DIIIP { DROP } ;
@@ -87,4 +90,4 @@ code { DUP ;
             CONS ;
             PAIR }
           { PUSH string "Wrong signature" ; FAILWITH } ;
-       DIP { DROP ; DROP ; DROP ; DROP ; DROP } };
+       DIP { DROP ; DROP ; DROP ; DROP ; DROP ; DROP } };
