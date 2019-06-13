@@ -1,7 +1,5 @@
-parameter
-  (option
-     (pair :parameter (signature %signature) (pair (string %string) (nat %number_of_op))));
-storage (pair :storage (key %key) (pair (nat %counter) (string %message)));
+parameter (option string);
+storage (pair :storage (address %publisher) (string %data));
 code { DUP ;
        DIP { CDR @storage_slash_1 } ;
        CAR @param_slash_2 ;
@@ -13,35 +11,17 @@ code { DUP ;
            LT ;
            IF { PUSH string "Not enough money, queries cost 1 tez." ; FAILWITH }
               { DUUP @storage ; NIL operation ; PAIR } }
-         { PUSH nat 1 ;
-           DUUUUP @storage ;
-           CDAR %counter ;
-           ADD ;
-           DUUP @p ;
-           CDDR %number_of_op ;
+         { DUUUP @storage ;
+           CAR %publisher ;
+           SENDER ;
            COMPARE ;
            NEQ ;
-           DUUP @p ;
-           CDAR %string ;
-           PACK @bytes ;
-           DUUUP @p ;
-           CAR %signature ;
-           DUUUUUUP @storage ;
-           CAR %key ;
-           CHECK_SIGNATURE ;
-           NOT ;
-           OR ;
            IF { PUSH string "Cannot authenticate." ; FAILWITH }
-              { DUP @p ;
-                CDAR %string ;
-                PUSH nat 1 ;
-                DUUUUUP @storage ;
-                CDAR %counter ;
-                ADD ;
-                PAIR %counter %message ;
-                DUUUUP @storage ;
-                CAR %key ;
-                PAIR @new_data %key ;
+              { DUUUP @storage ;
+                CAR %publisher ;
+                DUUP @p ;
+                SWAP ;
+                PAIR %publisher %data ;
                 NIL operation ;
                 PAIR } ;
            DIP { DROP } } ;
