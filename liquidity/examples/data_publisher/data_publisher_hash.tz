@@ -1,0 +1,34 @@
+parameter string;
+storage (pair :storage (address %publisher) (bytes %data));
+code { DUP ;
+       DIP { CDR @storage_slash_1 } ;
+       CAR @param_slash_2 ;
+       DUUP @storage ;
+       CDR %data ;
+       DUUP @param ;
+       PACK ;
+       SHA512 ;
+       COMPARE ;
+       EQ ;
+       IF { PUSH mutez 1000000 ;
+            AMOUNT ;
+            COMPARE ;
+            LT ;
+            IF { PUSH string "Not enough money, queries cost 1 tez." ; FAILWITH }
+               { DUUP @storage ; NIL operation ; PAIR } }
+          { DUUP @storage ;
+            CAR %publisher ;
+            SENDER ;
+            COMPARE ;
+            NEQ ;
+            IF { PUSH string "Cannot authenticate." ; FAILWITH }
+               { DUUP @storage ;
+                 CAR %publisher ;
+                 DUUP @param ;
+                 PACK ;
+                 SHA512 ;
+                 SWAP ;
+                 PAIR %publisher %data ;
+                 NIL operation ;
+                 PAIR } } ;
+       DIP { DROP ; DROP } };
